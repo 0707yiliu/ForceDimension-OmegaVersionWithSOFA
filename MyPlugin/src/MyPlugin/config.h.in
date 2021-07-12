@@ -1,0 +1,12 @@
+#pragma once
+
+#include <sofa/config.h>
+
+#define MYPLUGIN_VERSION @PROJECT_VERSION@
+
+#ifdef SOFA_BUILD_MYPLUGIN
+#define SOFA_TARGET MyPlugin
+#define SOFA_MYPLUGIN_API SOFA_EXPORT_DYNAMIC_LIBRARY
+#else
+#define SOFA_MYPLUGIN_API SOFA_IMPORT_DYNAMIC_LIBRARY
+#endif

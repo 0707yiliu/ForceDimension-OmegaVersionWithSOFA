@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<Node name="root" gravity="0 0 0" dt="0.01" >
+    <RequiredPlugin name="SofaOpenglVisual"/>
+    <RequiredPlugin name='SofaHaptics'/>
+    
+    <RequiredPlugin pluginName="MyPlugin"/>
+    <RequiredPlugin name='SofaSparseSolver'/>
+
+        <VisualStyle displayFlags="showVisualModels showBehaviorModels hideCollisionModels hideBoundingCollisionModels hideMappings hideMechanicalMappings hideForceFields hideInteractionForceFields hideWireframe hideNormals" />
+	<DefaultPipeline name="pipeline" depth="6" verbose="0"/>
+    <BruteForceBroadPhase/>
+    <BVHNarrowPhase/>
+    <DefaultContactManager name="response" response="FrictionContact" />
+    <LocalMinDistance name="proximity" alarmDistance="0.15" contactDistance="0.05" angleCone="0.1" />
+    <FreeMotionAnimationLoop/>
+
+    <LCPConstraintSolver tolerance="0.001" maxIt="1000"/>
+
+    <OmegaDriver name="OmegaDevice" deviceName="Default Device" scale="1"  positionBase="0 0 0" orientationBase="0 0 0 1"  />
+
+		    <!--  <MechanicalObject template="Rigid3d" name="Omega7" position="@OmegaDevice.positionDevice" /> -->
+    <Node name="Omega">
+        <!--<WriteState name="StateWriter_2" filename="DOFs.data" period="0.01" writeX="1" writeV="0" writeF="0" time="0"/>-->
+		<MechanicalObject template="Rigid3d" name="Omega7" position="@OmegaDevice.positionDevice" />
+        <MechanicalStateController template="Rigid3" listening="true" mainDirection="-1.0 0.0 0.0" handleEventTriggersUpdate="true"/>
+    </Node>
+
+<!-- Example of an instrument controlled with the Geomagic device -->
+    <!--<Node name="mapping">
+        <MeshObjLoader name="meshLoader_0" filename="mesh/dental_instrument.obj" handleSeams="1" />
+        <OglModel name="Visual" src="@meshLoader_0" color="red"  />
+	<RigidMapping input="@.." output="@Visual" /> 
+    </Node> -->
+        <Node name="Instrument" >
+        <EulerImplicitSolver rayleighMass="0.01" rayleighStiffness="0.1" />
+                <SparseLDLSolver />
+
+                <MechanicalObject name="instrumentState" template="Rigid3" tags="GeomagicDevice" position="@../GeomagicDevice.positionBase"/>
+                <UniformMass name="mass" totalMass="1" />
+
+		<RestShapeSpringsForceField stiffness='100000000' angularStiffness='100000000' external_rest_shape='@../Omega/Omega7' points='0' external_points='0'/>
+        <LCPForceFeedback name="LCPFF1" activate="true" forceCoef="0.2"/>
+        <LinearSolverConstraintCorrection />
+
+        <Node name="VisuTool" >
+            <MeshObjLoader name="meshLoader_1" filename="Demos/Dentistry/data/mesh/test3.obj" handleSeams="1" />
+            <OglModel name="InstrumentVisualModel" src="@meshLoader_1" color="1.0 0.2 0.2 1.0" ry="-180" rz="-90" dz="0" dy="-0.02" dx="-7"/>
+            <RigidMapping name="MM->VM mapping" input="@instrumentState" output="@InstrumentVisualModel" />
+        </Node>
+
+
+        <Node name="CollisionModel" >
+		<MeshObjLoader filename="Demos/Dentistry/data/mesh/test3.obj"  name="loader"/>
+            <MeshTopology src="@loader" name="InstrumentCollisionModel" />
+            <MechanicalObject src="@loader" name="instrumentCollisionState" ry="-180" rz="-90" dz="0" dy="-0.02" dx="-7"/>
+            <LineCollisionModel />
+            <PointCollisionModel />
+            <RigidMapping name="MM->CM mapping" input="@instrumentState" output="@instrumentCollisionState" />
+        </Node>
+    </Node>
+
+</Node>
+

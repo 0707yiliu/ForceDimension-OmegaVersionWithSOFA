@@ -1,0 +1,14 @@
+
+--- NEW SESSION: 11/07/2021 18:14:17 ---
+/Instrument/LCPFF1.forceCoef = 1.9301
+/Instrument/CollisionModel/lineCollisionModel3.color = 1 0.498039 0 1
+
+--- NEW SESSION: 11/07/2021 18:36:40 ---
+/Instrument/restShapeSpringsFF1.springColor = 0 1 0 1
+//OmegaDevice.positionDevice = -0.137454 -0.666898 -0.013354 0.0669386 0.793953 -0.234208 -0.556779
+/Instrument/instrumentState.velocity = -2.52321e-15 1.10929e-14 -1.57701e-16 6.53517e-136 -4.97213e-130 2.99057e-130
+/Instrument/instrumentState.free_velocity = -2.52321e-15 1.10929e-14 -1.57701e-16 6.53517e-136 -4.97213e-130 2.99057e-130
+/Instrument/instrumentState.10(V_DERIV) = 0 0 0 -3.59438e-133 2.7347e-127 -1.64483e-127
+/Instrument/instrumentState.showColor = 1 1 1 1
+/Instrument/restShapeSpringsFF1.external_points = 0
+/Instrument/restShapeSpringsFF1.springColor = 0 1 0 1
